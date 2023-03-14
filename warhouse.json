@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Книга",
+      "purchasePrice": 500,
+      "sellingPrice": 1000,
+      "quantity": 1
+    },
+    {
+      "id": 2,
+      "name": "Компьютер",
+      "purchasePrice": 25000,
+      "sellingPrice": 35000,
+      "quantity": 1
+    },
+    {
+      "id": 3,
+      "name": "Футбольный мяч",
+      "purchasePrice": 1000,
+      "sellingPrice": 1500,
+      "quantity": 1
+    },
+    {
+      "id": "43059403-a666-4efd-ad5b-4e0aec55d88d",
+      "name": "Машина",
+      "purchasePrice": 50000,
+      "sellingPrice": 70000
+    }
+  ]
+}
