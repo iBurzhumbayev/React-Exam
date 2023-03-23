@@ -5,3 +5,7 @@ export interface IProduct {
     sellingPrice: number,
     quantity: number,
 }
+
+export interface IWarehouse {
+    money: number;
+}

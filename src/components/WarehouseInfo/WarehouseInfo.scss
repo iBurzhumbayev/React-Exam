@@ -1,0 +1,19 @@
+.warehouse {
+    margin-top: 20px;
+    box-shadow: 15px 15px 30px rgba(0,0,0, .15);
+    color: #fff;
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid rgba(0,0,0,.125);
+        p {
+            color: #000;
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+}

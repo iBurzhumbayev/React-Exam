@@ -1,0 +1,27 @@
+@import '../../style/variables.scss';
+
+.navigation {
+    margin-top: 30px;
+    padding: 25px;
+    background-color: $main-color;
+    border-radius: 4px;
+    box-shadow: 15px 15px 30px rgba(0,0,0, .15);
+    color: #fff;
+    max-width: 1000px;
+    margin:  0 auto;
+    margin-top: 20px;
+    &__item {
+        font-weight: 400;
+        padding: 5px 10px;
+        margin-right: 5px;
+        border-radius: 5px;
+        color: #f8f9fa;
+        background-color: $main-color;
+        border: 1px solid#f8f9fa;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .active {
+        color: #000;
+        background-color: #f8f9fa;
+    }
+}

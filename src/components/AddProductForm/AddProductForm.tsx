@@ -1,8 +1,10 @@
 import { useHttp } from "../../hooks/http.hook";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FormEvent, useState } from "react";
 import { v4 as uuidv4 } from 'uuid'
-import { productCreated } from "../ProductList/productsSlice";
+import { productCreated } from "../../slices/productsSlice";
+import { updateWarehouse, fetchWarehouse } from '../../slices/warehouseSlice'
+import './AddProductForm.scss'
 
 const AddProductForm = () => {
 	const dispatch = useDispatch();
@@ -11,6 +13,22 @@ const AddProductForm = () => {
 	const [sellingPrice, setSellingPrice] = useState("");
 
 	const {request} = useHttp();
+	// @ts-ignore
+	const warehouse = useSelector(state => state.warehouse.items);
+
+	const purchaseProduct = (purchasePrice:number) => {
+
+		const money = warehouse.money - purchasePrice
+		// @ts-ignore
+		request("http://localhost:3001/warehouse", "PUT", JSON.stringify({money}))
+            .then(res => console.log(res, 'Отправка успешна'))
+			// @ts-ignore
+			.then(dispatch(updateWarehouse(money)))
+            .catch(err => console.log(err));
+
+		// @ts-ignore
+		dispatch(fetchWarehouse())
+	}
 
 	const handleClick = (e: FormEvent) => {
 		e.preventDefault();
@@ -19,45 +37,94 @@ const AddProductForm = () => {
             name,
             purchasePrice: parseInt(purchasePrice),
             sellingPrice: parseInt(sellingPrice),
+			quantity: 1
         }
-
-		//@ts-ignore
-		request("http://localhost:3001/items", "POST", JSON.stringify(newProduct))
-            .then(res => console.log(res, 'Отправка успешна'))
+		// @ts-ignore
+		if (warehouse.money - purchasePrice < 0) {
+			alert('Не хватает денег')
+		} else {
 			//@ts-ignore
-            .then(dispatch(productCreated(newProduct)))
-            .catch(err => console.log(err));
+			request("http://localhost:3001/items", "POST", JSON.stringify(newProduct))
+			.then(res => console.log(res, 'Отправка успешна'))
+			//@ts-ignore
+			.then(dispatch(productCreated(newProduct)))
+			// @ts-ignore
+			.then(purchaseProduct(purchasePrice))
+			.catch(err => console.log(err));
+
+			setName('');
+			setPurchasePrice('');
+			setSellingPrice('');
+		}
 	};
 
-  	console.log(name)
-
 	return (
-		<div>
-			<form onSubmit={handleClick}>
+		<div className="app-add-form">
+			<h3>Добавьте новый товар</h3>
+			<form className="add-form" onSubmit={handleClick}>
 				<input
 					required
-					placeholder="Name"
+					placeholder="Название"
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 				/>
 				<input
 					required
 					type='number'
-					placeholder="Purchase price"
+					placeholder="Цена покупки"
 					value={purchasePrice}
 					onChange={(e) => setPurchasePrice(e.target.value)}
 				/>
 				<input
 					required
 					type='number'
-					placeholder="Selling price"
+					placeholder="Цена продажи"
 					value={sellingPrice}
 					onChange={(e) => setSellingPrice(e.target.value)}
 				/>
-				<button>Add</button>
+				<button>Добавить</button>
 			</form>
 		</div>
 	);
 };
 
 export default AddProductForm;
+
+
+
+
+
+
+
+// const handleClick = async (e: FormEvent) => {
+// 	e.preventDefault();
+// 	const item = {
+// 	  name,
+// 	  purchasePrice: parseInt(purchasePrice),
+// 	  sellingPrice: parseInt(sellingPrice),
+// 	  quantity: 1
+// 	};
+  
+// 	try {
+// 	  const response = await request("http://localhost:3001/items?name=" + name);
+// 	  const existingItem = response[0];
+// 	  if (existingItem) {
+// 		item.quantity = existingItem.quantity + 1;
+// 		item.id = existingItem.id;
+// 		await request(
+// 		  `http://localhost:3001/items/${existingItem.id}`,
+// 		  "PUT",
+// 		  JSON.stringify(item)
+// 		);
+// 	  } else {
+// 		item.id = uuidv4();
+// 		await request("http://localhost:3001/items", "POST", JSON.stringify(item));
+// 	  }
+// 	  dispatch(productCreated(item));
+// 	  setName("");
+// 	  setPurchasePrice("");
+// 	  setSellingPrice("");
+// 	} catch (err) {
+// 	  console.log(err);
+// 	}
+//   };

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import products from './components/ProductList/productsSlice'
+import products from './slices/productsSlice'
+import warehouse from './slices/warehouseSlice'
 
 export const store = configureStore({
     reducer: {
         products: products,
+        warehouse: warehouse,
     },
     devTools: process.env.NODE_ENV !== 'production'
 })

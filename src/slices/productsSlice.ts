@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getResource } from "../../common/api";
+import { useHttp } from "../hooks/http.hook";
 
 const initialState = {
     items: [],
@@ -9,7 +9,8 @@ const initialState = {
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
     async () => {
-        return await getResource(`/items`);
+        const {request} = useHttp();
+        return await request("http://localhost:3001/items");
     }
 );
 

@@ -1,0 +1,12 @@
+@import '../../style/variables.scss';
+
+.header {
+    padding: 25px;
+    background-color: $main-color;
+    border-radius: 4px;
+    box-shadow: 15px 15px 30px rgba(0,0,0, .15);
+    color: #fff;
+    max-width: 1000px;
+    margin:  0 auto;
+    margin-top: 50px;
+}

@@ -1,0 +1,24 @@
+.products__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    p {
+        width: 300px;
+        color: #000
+    }
+    &-wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 500px;
+        p {
+            width: 100px;
+            text-align: center;
+        }
+    }
+    &-title {
+        font-weight: bold;
+    }
+}

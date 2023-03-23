@@ -1,13 +1,11 @@
-import { ProductList, AddProductForm } from "../components";
+import { RouterProvider } from 'react-router-dom'
+import router from '../router/router';
+import '../style/style.scss'
 
 function App() {
 
     return (
-        <div>
-            <h1>Redux</h1>
-            <AddProductForm/>
-            <ProductList/>
-        </div>
+        <RouterProvider router={router}/>
     )
 
 }
