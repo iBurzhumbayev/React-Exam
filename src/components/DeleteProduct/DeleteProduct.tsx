@@ -38,7 +38,7 @@ const DeleteProduct = () => {
                 dispatch(productDeleted(selectedProductId));
                 setSelectedProductId('');
             })
-            .then(() => operation(selectedProductName, 'Удаление товара'))
+            .then(() => operation(selectedProductName, 'Удаление'))
             .catch(err => console.log(err));
     }, [request, selectedProductId, selectedProductName]);
 

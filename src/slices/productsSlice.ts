@@ -26,6 +26,20 @@ const productsSlice = createSlice({
             // @ts-ignore
             state.items = state.items.filter((product) => product.id !== action.payload);
         },
+        productUpdate: (state, action) => {
+            const { id, purchasePrice, sellingPrice, quantity } = action.payload;
+            // @ts-ignore
+            const productToUpdate = state.items.find((product) => product.id === id);
+
+            if (productToUpdate) {
+                // @ts-ignore
+                productToUpdate.purchasePrice = purchasePrice;
+                // @ts-ignore
+                productToUpdate.sellingPrice = sellingPrice;
+                // @ts-ignore
+                productToUpdate.quantity = quantity;
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -46,5 +60,6 @@ const {actions, reducer} = productsSlice;
 export default reducer;
 export const {
     productCreated,
-    productDeleted
+    productDeleted,
+    productUpdate
 } = actions;

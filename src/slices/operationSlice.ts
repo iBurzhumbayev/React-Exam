@@ -18,7 +18,7 @@ const operationSlice = createSlice({
     name: 'operation',
     initialState,
     reducers: {
-        updateWarehouse: (state, action) => {
+        updateOperation: (state, action) => {
             console.log(action)
         },
     },
@@ -40,6 +40,6 @@ const {actions, reducer} = operationSlice;
 
 export default reducer;
 export const {
-    updateWarehouse,
+    updateOperation,
 
 } = actions;
