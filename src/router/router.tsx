@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { GeneralPage, ErrorPage, ProductsPage, AddProductPage, DeleteProductPage, WarehouseInfoPage } from '../routes';
+import { GeneralPage, ErrorPage, ProductsPage, AddProductPage, DeleteProductPage, WarehouseInfoPage, OperationListPage } from '../routes';
 
 const router = createBrowserRouter([
     {
@@ -22,6 +22,10 @@ const router = createBrowserRouter([
             {
                 path: '/product-delete',
                 element: <DeleteProductPage/>
+            },
+            {
+                path: '/operation',
+                element: <OperationListPage/>
             },
         ]
     }

@@ -8,6 +8,7 @@ const AppNavigation = () => {
             <NavLink className='navigation__item' to='/products'>Товары</NavLink>
             <NavLink className='navigation__item' to='/product-add'>Добавление товара</NavLink>
             <NavLink className='navigation__item' to='/product-delete'>Удаление товара</NavLink>
+            <NavLink className='navigation__item' to='/operation'>Операции</NavLink>
         </nav>
     )
 }

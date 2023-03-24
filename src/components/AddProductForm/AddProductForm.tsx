@@ -30,6 +30,19 @@ const AddProductForm = () => {
 		dispatch(fetchWarehouse())
 	}
 
+	const operation = (nameProduct: string, name:string) => {
+		const newOperation = {
+            id: uuidv4(),
+            name,
+			nameProduct,
+			date: new Date()
+		}
+		//@ts-ignore
+		request("http://localhost:3001/operation", "POST", JSON.stringify(newOperation))
+			.then(res => console.log(res, 'Отправка успешна'))
+			.catch(err => console.log(err));
+	}
+
 	const handleClick = (e: FormEvent) => {
 		e.preventDefault();
 		const newProduct = {
@@ -50,6 +63,8 @@ const AddProductForm = () => {
 			.then(dispatch(productCreated(newProduct)))
 			// @ts-ignore
 			.then(purchaseProduct(purchasePrice))
+			// @ts-ignore
+			.then(operation(name, 'Добавление товара'))
 			.catch(err => console.log(err));
 
 			setName('');
