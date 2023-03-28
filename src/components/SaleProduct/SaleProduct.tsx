@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { IProduct } from '../../types';
 import { fetchProducts, productDeleted, productUpdate } from '../../slices/productsSlice';
+import { updateWarehouse, fetchWarehouse } from '../../slices/warehouseSlice'
 import { v4 as uuidv4 } from 'uuid'
 
 const SaleProduct = () => {
@@ -11,6 +12,7 @@ const SaleProduct = () => {
     const dispatch = useDispatch();
     // const productsLoadingStatus = useSelector((state: RootState) => state.products.productsLoadingStatus);
     const products = useSelector((state: RootState) => state.products.items);
+    const warehouse = useSelector((state: RootState)=> state.warehouse.items);
     const {request} = useHttp();
 
     const [selectedProductId, setSelectedProductId] = useState<string>("");
@@ -31,11 +33,28 @@ const SaleProduct = () => {
             .catch(err => console.log(err));
     }
 
+
+    const warehouseMoney = (sellingPrice:number) => {
+		// @ts-ignore
+		const money = warehouse.money + sellingPrice
+		// @ts-ignore
+		request("http://localhost:3001/warehouse", "PUT", JSON.stringify({money}))
+            .then(res => console.log(res, 'Отправка успешна'))
+			// @ts-ignore
+			.then(dispatch(updateWarehouse(money)))
+            .catch(err => console.log(err));
+
+		// @ts-ignore
+		dispatch(fetchWarehouse())
+	}
+
     
-    const onDelete = useCallback(() => {
+    const onSale = useCallback(() => {
 
         const saleTotalQuantity = products.find((p: any) => p.name === selectedProductName);
         const existingProduct = products.find((p: any) => p.id === selectedProductId);
+        // @ts-ignore
+        const sellingPrice = saleTotalQuantity.sellingPrice * selectedQuantity
 
         // @ts-ignore
         if (saleTotalQuantity.quantity === selectedQuantity) {
@@ -44,8 +63,13 @@ const SaleProduct = () => {
                 console.log(data, 'Deleted');
                 dispatch(productDeleted(selectedProductId));
                 setSelectedProductId('');
+                alert(`Вы продали ${selectedProductName} в количестве ${selectedQuantity}`)
             })
-            .then(() => operation(selectedProductName, 'Продажа'))
+            .then(() => {
+                operation(selectedProductName, 'Продажа')
+                // @ts-ignore
+                warehouseMoney(sellingPrice)
+            })
             .catch(err => console.log(err));
         } else {
             const updatedProduct = {
@@ -57,11 +81,14 @@ const SaleProduct = () => {
 		
 			// @ts-ignore
 			request(`http://localhost:3001/items/${existingProduct.id}`, "PUT", JSON.stringify(updatedProduct))
-				.then((res) => console.log(res, "Отправка успешна"))
-				// @ts-ignore
-				.then(dispatch(productUpdate(updatedProduct)))
-				// @ts-ignore
-				.then(operation(selectedProductName, 'Продажа'))
+				.then((res) => {
+                    console.log(res, "Отправка успешна")
+                    alert(`Вы продали ${selectedProductName} в количестве ${selectedQuantity}`)
+                    dispatch(productUpdate(updatedProduct))
+                    operation(selectedProductName, 'Продажа')
+                    // @ts-ignore
+                    warehouseMoney(sellingPrice)
+                })
 				.catch((err) => console.log(err));
         }
         setSelectedProductId("");
@@ -103,7 +130,7 @@ const SaleProduct = () => {
                         ))}
                     </select>
                 )}
-                <button style={{marginLeft: 15}} onClick={onDelete} disabled={!selectedProductId}>Купить</button>
+                <button style={{marginLeft: 15}} onClick={onSale} disabled={!selectedProductId}>Продать</button>
             </>
         </div>
     )
