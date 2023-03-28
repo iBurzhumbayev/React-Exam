@@ -10,7 +10,7 @@ import './DeleteProduct.scss'
 const DeleteProduct = () => {
 
     const dispatch = useDispatch();
-    const productsLoadingStatus = useSelector((state: RootState) => state.products.productsLoadingStatus);
+    // const productsLoadingStatus = useSelector((state: RootState) => state.products.productsLoadingStatus);
     const products = useSelector((state: RootState) => state.products.items);
     const {request} = useHttp();
 

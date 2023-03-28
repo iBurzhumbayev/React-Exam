@@ -19,7 +19,7 @@ const OperationList = () => {
         return (
             <ul className='products'>
                 <li className='products__item'>
-                    <p>Товаров пока нет...</p>
+                    <p>Операций пока нет...</p>
                 </li>
             </ul>
         )

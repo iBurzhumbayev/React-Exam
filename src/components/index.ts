@@ -7,3 +7,4 @@ export { default as ProductsListItem } from './ProductsListItem/ProductsListItem
 export { default as DeleteProduct } from './DeleteProduct/DeleteProduct'
 export { default as WarehouseInfo } from './WarehouseInfo/WarehouseInfo'
 export { default as OperationList } from './OperationList/OperationList'
+export { default as SaleProduct } from './SaleProduct/SaleProduct'
